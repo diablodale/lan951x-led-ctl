@@ -1,7 +1,7 @@
 /*
 	lan951x-led-ctl - control LEDs of LAN951X ethernet/usb controllers
 	
-	Copyright (C) 2015-2020 Dominic Radermacher <dominic@familie-radermacher.ch>
+	Copyright (C) 2015-2022 Dominic Radermacher <dominic@familie-radermacher.ch>
 	
 	This program is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License version 3 as
@@ -22,7 +22,9 @@
 #include <string.h>		/* strlen() */
 #include <stdint.h>
 #include <libusb-1.0/libusb.h>
+
 #include "lan951x-led-ctl.h"
+#include "version.h"
 
 /* global variables */
 int led_arr[3] = { MODE_KEEP, MODE_KEEP, MODE_KEEP };
@@ -102,9 +104,11 @@ void usage(void)
 
 void about(void)
 {
-	printf("lan951x-led-ctl %s programmed by Dominic Radermacher\n", VERSION);
-	printf("For further info or latest version see\n");
-	printf("https://familie-radermacher.ch/dominic/computer/raspberry-pi/lan951x-led-ctl/\n");
+	printf("lan951x-led-ctl %s programmed by Dominic Radermacher\n\n", VERSION);
+	printf("For further info plese visit\n");
+	printf("https://dominic.familie-radermacher.ch/computer/raspberry-pi/lan951x-led-ctl/\n\n");
+	printf("The latest version can be found in my git repo:\n");
+	printf("https://git.familie-radermacher.ch/linux/lan951x-led-ctl.git\n");
 	exit(1);
 }
 
@@ -112,7 +116,7 @@ int parse_args(int argc, char **argv)
 {
 	int i;
 
-	for (i=1; i<argc; i++) {
+	for (i=1; i<argc; ++i) {
 		char *p=argv[i];
 		if (strncmp(p, "--fdx=", 6) == 0) {
 			led_arr[DUPIDX] = ledmode(p+6);
@@ -153,7 +157,7 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 	lan951x_rd_reg(handle, LED_GPIO_CFG, &val);
-	for (int i=0; i < 3; i++) {
+	for (int i=0; i < 3; ++i) {
 		if (led_arr[i] == MODE_ON) {
 			val &= ~(gp_mask[i] & (GP_ALLCTL|GP_ALLDAT));
 			val |= (gp_mask[i] & GP_ALLDIR);

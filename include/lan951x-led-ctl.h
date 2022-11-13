@@ -1,7 +1,7 @@
 /*
 	lan951x-led-ctl - control LEDs of LAN951X ethernet/usb controllers
 
-	Copyright (C) 2015-2020 Dominic Radermacher <dominic@familie-radermacher.ch>
+	Copyright (C) 2015-2022 Dominic Radermacher <dominic@familie-radermacher.ch>
 
 	This program is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License version 3 as
