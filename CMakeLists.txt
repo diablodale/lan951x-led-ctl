@@ -1,12 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
 
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
+# This needs to come before project() to skip the compiler config process
+if ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+	message(FATAL_ERROR "In-source builds are disabled.
+Please create a subfolder and use `cmake ..` inside it.
+NOTE: cmake will now create CMakeCache.txt and CMakeFiles/*.
+You must delete them, or cmake will refuse to work.")
+endif() # yes, end-markers and even else() need empty parentheses
+
 project(lan951x-led-ctl LANGUAGES C)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 set(CMAKE_INSTALL_PREFIX /usr)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -37,9 +48,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 add_dependencies(${PROJECT_NAME}
 	git-version
-)
-
-add_compile_definitions(
 )
 
 target_compile_options(${PROJECT_NAME} PUBLIC
